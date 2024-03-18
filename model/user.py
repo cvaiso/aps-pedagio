@@ -1,5 +1,5 @@
 class User:
-    def __init__(self, name, ID, address, vehicle):
+    def __init__(self, name, CPF, vehicle):
         """
         Initializes a new Vehicle object with the provided attributes.
         Args:
@@ -9,9 +9,8 @@ class User:
             vehicle (Vehicle): The vehicle of the user.
         """
         self.name = name
-        self.ID = ID
-        self.address = address
-        self.vehicle = vehicle
+        self.CPF = CPF
+        self.status = "licensed"
 
     def __str__(self):
         """
