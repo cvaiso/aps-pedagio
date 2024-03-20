@@ -1,5 +1,5 @@
 class Vehicle:
-    def __init__(self, plate, model, color):
+    def __init__(self, plate, model, color, status = "licensed"):
         """
         Initializes a new Vehicle object with the provided attributes.
         Args:
@@ -10,6 +10,8 @@ class Vehicle:
         self.plate = plate
         self.model = model
         self.color = color
-        self.owner = None
-        # all cars have a value that indicates if its licensed, furted, etc
-        self.status = "licensed"
+        self.status = status
+    
+    def __str__(self):
+        return f"Vehicle: {self.plate}, Model: {self.model}, Color: {self.color}, Status: {self.status}"
+    
