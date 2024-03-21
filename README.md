@@ -19,7 +19,9 @@ o programa deve ter uma interface simples e intuitiva
 # PROJETO
 ## Quais tecnologias serão utilizadas?
 - Linguagem: Python
-- Bibliotecas: Tkinter
+- Bibliotecas: 
+    - tkinter, para interface grafica
+    - psycopg2, para comunicação com banco de dados postgres
 ## Qual padrão de arquitetura?
 - Arquitetura: MVC modificado (model, view, control e data)
 ## Qual o modelo de produção de software?
