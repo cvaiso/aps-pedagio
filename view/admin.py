@@ -139,7 +139,7 @@ class AdminView:
         tk.Button(button_frame, text="Submit").pack(side='left')
         tk.Button(button_frame, text="Cancel", command=popup.destroy).pack(side='left')
     
-    def list_vehicle(self):
+    # def list_vehicle(self):
         # we wil list all the vehicle in the database
         # and allow the user to order then by plate, model, color or status
         # we will have a search bar to find a vehicle by plate
