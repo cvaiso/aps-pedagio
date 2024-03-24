@@ -1,6 +1,6 @@
 # this is the data class for admin
 # insert, delete and find admin in a postgress SQL database
-class Admin:
+class AdminData:
     def insert(admin):
         """
         Inserts a new admin into the database.

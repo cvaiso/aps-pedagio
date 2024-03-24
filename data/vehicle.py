@@ -1,6 +1,6 @@
 # this is the data class for the vehicle
 # insert, delete and find vehicles in a postgress SQL database
-class CVehicle:
+class VehicleData:
     def insert(vehicle):
         """
         Inserts a new vehicle into the database.
