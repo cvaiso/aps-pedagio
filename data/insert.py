@@ -3,7 +3,7 @@ import database as db
 def Insert(object, tabela):
     atributes = [attr for attr in dir(object) if not callable(getattr(object, attr)) and not attr.startswith("__")]
 
-    # Monta a string SQL dinamicamente
+    # dinamic string SQL 
     colunas = ', '.join(atributes)
     valores = ', '.join(['%s'] * len(atributes))
 
@@ -12,7 +12,7 @@ def Insert(object, tabela):
         VALUES ({valores})
     """
 
-    # Obtém os valores dos atributes do object
+    # attribute values from object
     object_value = [getattr(object, attribute) for attribute in atributes]
 
     with db.conn, db.conn.cursor() as cursor:
