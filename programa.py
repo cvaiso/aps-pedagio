@@ -1,4 +1,4 @@
-import psycopg2
+#import psycopg2
 import tkinter as tk
 from view.admin import AdminView
 
