@@ -1,5 +1,6 @@
 #import psycopg2
 import tkinter as tk
+from view.login import LoginView
 from view.admin import AdminView
 
 # conn = psycopg2.connect(database = "pedagiodb", 
@@ -28,4 +29,5 @@ from view.admin import AdminView
 #creating tkinter window
 root = tk.Tk()
 admin = AdminView(root)
-admin.create_widgets()
+# login = LoginView(root)
+root.mainloop()
