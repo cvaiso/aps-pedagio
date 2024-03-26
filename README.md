@@ -28,3 +28,5 @@ o programa deve ter uma interface simples e intuitiva
 - gohorse
 ## Praticas de programação
 - O software é totalmente orientado a objeto
+
+## Observação: na definição das classes, o  primeiro atributo da classe, deve ser SEMPRE a primarykey correspondente ao banco de dados.
