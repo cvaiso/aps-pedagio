@@ -113,12 +113,13 @@ class AdminView:
 
         # table frame
         self.clear()
-        # call control for the list of admins
-        # for testing we will create a list of admins
+        # creating fake data to test the view
         admins = []
-        for i in range(10):
+        for i in range(50):
             admins.append(Admin("John Doe", "1234", "email1@test.com"))
-
+        # making every grid have a minimum size
+        self.root.grid_rowconfigure(0, minsize=100)
+        self.root.grid_columnconfigure(0, minsize=100)
         # table label
         table_label = Label(self.root)
         # creating tree
@@ -127,20 +128,48 @@ class AdminView:
         tree["columns"] = ("Name", "Email", "Permission")
         # format columns
         tree.column("#0", width=0, stretch=tk.NO)
-        tree.column("Name", anchor=tk.W, width=100)
-        tree.column("Email", anchor=tk.CENTER, width=100)
-        tree.column("Permission", anchor=tk.W, width=25)
+        tree.column("Name", anchor=tk.W, width=200)
+        tree.column("Email", anchor=tk.CENTER, width=200)
+        tree.column("Permission", anchor=tk.CENTER, width=80)
         # creaing headings
         tree.heading("#0", text="", anchor=tk.W)
-        tree.heading("Name", text="Name", anchor=tk.W)
+        tree.heading("Name", text="Name", anchor=tk.CENTER)
         tree.heading("Email", text="Email", anchor=tk.CENTER)
-        tree.heading("Permission", text="Permission", anchor=tk.W)
-        # adding data
+        tree.heading("Permission", text="Permission", anchor=tk.CENTER)
+        # adding the fake data
         for i, admin in enumerate(admins):
             tree.insert(parent="", index=tk.END, iid=i, text="", values=(admin.name, admin.email, admin.permission))
         # placing tree
         tree.pack()
-        table_label.pack()
+        # placing the table label
+        table_label.grid(row=1, column=1, rowspan=4, columnspan=4, padx=10, pady=10)
+        # label for search bar
+        search_label = Label(self.root)
+        # placing search label
+        search_label.grid(row=1, column=7, padx=10, sticky='s')
+        name_label = Label(search_label, text="Name").grid(row=0, column=0)
+        email_label = Label(search_label, text="Email").grid(row=0, column=1)
+        # entry boxes for search bar
+        name_entry = Entry(search_label, width=30).grid(row=1, column=0)
+        email_entry = Entry(search_label, width=30).grid(row=1, column=1)
+        # creating an empty label to create space
+        empty_label = Label(self.root, width=20, bg='light blue')
+        empty_label.grid(row=1, column=6)
+
+        # creating buttons
+        button_search = Button(self.root, text="Search")
+        button_search.grid(row=2, column=7, padx=10)
+        # label for remove buttons
+        remove_label = Label(self.root, bg='light blue')
+        button_remove_one = Button(remove_label, text="Remove One")
+        button_remove_one.pack(side='left', padx=10)
+        button_remove_many = Button(remove_label, text="Remove Many")
+        button_remove_many.pack(side='left', padx=10)
+        remove_label.grid(row=6, column=2, padx=10, columnspan=2)
+
+
+
+
 
     def add_vehicle(self): 
         if self.vehicle is None:
