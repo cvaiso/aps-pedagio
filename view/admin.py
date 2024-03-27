@@ -6,17 +6,13 @@ from tkinter import Menu
 from tkinter import Label
 from tkinter import Entry
 from tkinter import Button
+from view.vehicle import VehicleView
 
 
 class AdminView:
     def __init__(self, root):
         self.root = root
         self.root.title('Admin')
-        self.root.geometry('1280x720')
-        self.root.config(bg = 'light blue')
-        self.root.resizable(False, False)
-        self.create_widgets()
-
     def create_widgets(self):
         # we will have a menu bar with the following options
         # 1. Admin (add, delete, find)
@@ -27,7 +23,7 @@ class AdminView:
         menubar = Menu(self.root)
         adminmenu = Menu(menubar, tearoff=0)
         adminmenu.add_command(label="Add", command=self.add_admin)
-        adminmenu.add_command(label="List", command=self.donothing)
+        adminmenu.add_command(label="List", command=self.list_admin)
         adminmenu.add_separator()
         adminmenu.add_command(label="Exit", command=self.root.quit)
         menubar.add_cascade(label="Admin", menu=adminmenu)
@@ -52,7 +48,6 @@ class AdminView:
         menubar.add_cascade(label="Transaction", menu=transactionmenu)
 
         self.root.config(menu=menubar)
-
     def add_admin(self):
         # we need to check te admin permission, if it is 0
         # we will not allow the admin to add another admin
@@ -96,63 +91,71 @@ class AdminView:
         button_frame.pack(anchor='center', expand=True)
         tk.Button(button_frame, text="Submit").pack(side='left')
         tk.Button(button_frame, text="Cancel", command=popup.destroy).pack(side='left')
-    
-    def add_vehicle(self):
-        # we will have a pop up windows
+    def clear(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
+        self.create_widgets()
+    def list_admin(self):
+        # we will have a list of admins
         # with the following fields
-        # 1. Plate
-        # 2. Model
-        # 3. Color
-        # 4. Status
-        # we will have a submit button
-        # and a cancel button
+        # 1. Name
+        # 2. Email
+        # 3. Permission
+        # 4. History
+        # we will have a search bar
+        # and a search button
+        # we will have a delete button
+        # we will show the admins from a list of admins
+        # it will be shown in the same window
 
-        popup = tk.Toplevel(self.root)
-        popup.title("Add Vehicle")
-        popup.geometry('300x400')
-        popup.configure(bg='light blue')
+        # table frame
+        self.clear()
+        # call control for the list of admins
+        # for testing we will create a list of admins
+        admins = [
+            {
+                'admin_name': 'admin1',
+                'admin_email': 'email1',
+                'admin_permission': 0
+            },
+            {
+                'admin_name': 'admin2',
+                'admin_email': 'email2',
+                'admin_permission': 1
+            },
+            {
+                'admin_name': 'admin3',
+                'admin_email': 'email3',
+                'admin_permission': 2
+            }
+        ]
+        table_title_frame = tk.Frame(self.root)
+        table_title_frame.grid(row=1, column=1)
+        # I want to add a border to the table
+        tk.Label(table_title_frame, text="Name", width=12, bg='white', relief='groove').pack(side='left')
+        tk.Label(table_title_frame, text="Email", width=25, bg='white', relief='groove').pack(side='left')
+        tk.Label(table_title_frame, text="Permission", width=12, bg='white',relief='groove').pack(side='left')
 
-        plate_frame = tk.Frame(popup)
-        plate_frame.pack(anchor='w', expand=True)
-        tk.Label(plate_frame, text="Plate", width=12, bg='light blue').pack(side='left')
-        tk.Entry(plate_frame, width=25).pack(side='left')
+        table_content_frame = tk.Frame(self.root)
+        table_content_frame.grid(row=2, column=1)
 
-        model_frame = tk.Frame(popup)
-        model_frame.pack(anchor='w', expand=True)
-        tk.Label(model_frame, text="Model", width=12, bg='light blue').pack(side='left')
-        tk.Entry(model_frame, width=25).pack(side='left')
+        # table frame
+        for admin in admins:
+            admin_frame = tk.Frame(table_content_frame, relief='groove')
+            admin_frame.pack()
+            tk.Label(admin_frame, text=admin['admin_name'], width=12, bg='light grey').pack(side='left')
+            tk.Label(admin_frame, text=admin['admin_email'], width=25, bg='light grey').pack(side='left')
+            tk.Label(admin_frame, text=admin['admin_permission'], width=12, bg='light grey').pack(side='left')
+        
 
-        color_frame = tk.Frame(popup)
-        color_frame.pack(anchor='w', expand=True)
-        tk.Label(color_frame, text="Color", width=12, bg='light blue').pack(side='left')
-        tk.Entry(color_frame, width=25).pack(side='left')
-
-        status_frame = tk.Frame(popup)
-        status_frame.pack(anchor='w', expand=True)
-        tk.Label(status_frame, text="Status", width=12, bg='light blue').pack(side='left')
-        status_entry = tk.Entry(status_frame, width=25)
-        status_entry.insert(0, "licensed")
-        status_entry.pack(side='left')
-
-        button_frame = tk.Frame(popup)
-        button_frame.pack(anchor='center', expand=True)
-        tk.Button(button_frame, text="Submit").pack(side='left')
-        tk.Button(button_frame, text="Cancel", command=popup.destroy).pack(side='left')
-    
-    # def list_vehicle(self):
-        # we wil list all the vehicle in the database
-        # and allow the user to order then by plate, model, color or status
-        # we will have a search bar to find a vehicle by plate
-        # we will have a delete button to delete a vehicle
-
-        # we will have a table with the following columns
-        # 1. Plate
-        # 2. Model
-        # 3. Color
-        # 4. Status
-
-        # we will have a search bar to find a vehicle by plate placed right the table
-        # we will have a delete button to delete a selected vehicle placed right the table
-
+    def add_vehicle(self): 
+        if self.vehicle is None:
+            self.vehicle = VehicleView(self.root)
+        self.vehicle.add_vehicle()
+    def list_vehicle(self):
+        # create a vehicle view object if it does not exist
+        if self.vehicle is None:
+            self.vehicle = VehicleView(self.root)
+        self.vehicle.list_vehicle()
     def donothing(self):
         pass

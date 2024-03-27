@@ -2,6 +2,7 @@
 import tkinter as tk
 from view.login import LoginView
 from view.admin import AdminView
+from time import sleep
 
 # conn = psycopg2.connect(database = "pedagiodb", 
 #                         user = "postgres", 
@@ -28,6 +29,8 @@ from view.admin import AdminView
 
 #creating tkinter window
 root = tk.Tk()
-admin = AdminView(root)
-# login = LoginView(root)
+login = LoginView(root)
+login.create_widgets()
 root.mainloop()
+admin = AdminView(root)
+admin.create_widgets()
