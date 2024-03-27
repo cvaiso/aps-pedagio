@@ -2,17 +2,20 @@
 # it handles the admin view
 # we will be using tkinter for the view
 import tkinter as tk
+from tkinter import ttk
 from tkinter import Menu
 from tkinter import Label
 from tkinter import Entry
 from tkinter import Button
 from view.vehicle import VehicleView
+from model.admin import Admin
 
 
 class AdminView:
     def __init__(self, root):
         self.root = root
         self.root.title('Admin')
+        self.vehicle = None
     def create_widgets(self):
         # we will have a menu bar with the following options
         # 1. Admin (add, delete, find)
@@ -112,41 +115,32 @@ class AdminView:
         self.clear()
         # call control for the list of admins
         # for testing we will create a list of admins
-        admins = [
-            {
-                'admin_name': 'admin1',
-                'admin_email': 'email1',
-                'admin_permission': 0
-            },
-            {
-                'admin_name': 'admin2',
-                'admin_email': 'email2',
-                'admin_permission': 1
-            },
-            {
-                'admin_name': 'admin3',
-                'admin_email': 'email3',
-                'admin_permission': 2
-            }
-        ]
-        table_title_frame = tk.Frame(self.root)
-        table_title_frame.grid(row=1, column=1)
-        # I want to add a border to the table
-        tk.Label(table_title_frame, text="Name", width=12, bg='white', relief='groove').pack(side='left')
-        tk.Label(table_title_frame, text="Email", width=25, bg='white', relief='groove').pack(side='left')
-        tk.Label(table_title_frame, text="Permission", width=12, bg='white',relief='groove').pack(side='left')
+        admins = []
+        for i in range(10):
+            admins.append(Admin("John Doe", "1234", "email1@test.com"))
 
-        table_content_frame = tk.Frame(self.root)
-        table_content_frame.grid(row=2, column=1)
-
-        # table frame
-        for admin in admins:
-            admin_frame = tk.Frame(table_content_frame, relief='groove')
-            admin_frame.pack()
-            tk.Label(admin_frame, text=admin['admin_name'], width=12, bg='light grey').pack(side='left')
-            tk.Label(admin_frame, text=admin['admin_email'], width=25, bg='light grey').pack(side='left')
-            tk.Label(admin_frame, text=admin['admin_permission'], width=12, bg='light grey').pack(side='left')
-        
+        # table label
+        table_label = Label(self.root)
+        # creating tree
+        tree = ttk.Treeview(table_label)
+        # defining columns
+        tree["columns"] = ("Name", "Email", "Permission")
+        # format columns
+        tree.column("#0", width=0, stretch=tk.NO)
+        tree.column("Name", anchor=tk.W, width=100)
+        tree.column("Email", anchor=tk.CENTER, width=100)
+        tree.column("Permission", anchor=tk.W, width=25)
+        # creaing headings
+        tree.heading("#0", text="", anchor=tk.W)
+        tree.heading("Name", text="Name", anchor=tk.W)
+        tree.heading("Email", text="Email", anchor=tk.CENTER)
+        tree.heading("Permission", text="Permission", anchor=tk.W)
+        # adding data
+        for i, admin in enumerate(admins):
+            tree.insert(parent="", index=tk.END, iid=i, text="", values=(admin.name, admin.email, admin.permission))
+        # placing tree
+        tree.pack()
+        table_label.pack()
 
     def add_vehicle(self): 
         if self.vehicle is None:
