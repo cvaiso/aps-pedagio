@@ -6,7 +6,7 @@ from tkinter import Menu
 from tkinter import Label
 from tkinter import Entry
 from tkinter import Button
-
+from tkinter import messagebox
 
 class AdminView:
     def __init__(self, root):
@@ -16,6 +16,7 @@ class AdminView:
         self.root.config(bg = 'light blue')
         self.root.resizable(False, False)
         self.create_widgets()
+
 
     def create_widgets(self):
         # we will have a menu bar with the following options
@@ -153,6 +154,7 @@ class AdminView:
 
         # we will have a search bar to find a vehicle by plate placed right the table
         # we will have a delete button to delete a selected vehicle placed right the table
-
+    
+    
     def donothing(self):
         pass
