@@ -30,6 +30,4 @@ o programa deve ter uma interface simples e intuitiva
 - Arquitetura: MVC modificado (model, view, control e data)
 
 ## Praticas de programação
-- O software é totalmente orientado a objeto
-
-## Observação: na definição das classes, o  primeiro atributo da classe, deve ser SEMPRE a primarykey correspondente ao banco de dados.
+- O software é totalmente orientado a objeto.
