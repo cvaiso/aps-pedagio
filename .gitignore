@@ -3,3 +3,4 @@ view/__pycache__
 model/__pycache__
 control/__pycache__
 data/__pycache__
+data/json_files/*.json
