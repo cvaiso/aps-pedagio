@@ -7,7 +7,7 @@ from tkinter import Menu
 from tkinter import Label
 from tkinter import Entry
 from tkinter import Button
-from view.vehicle import VehicleView
+from view.tollOperator import tollOperatorView
 from model.tollOperator import TollOperator
 from control.maincontrol import MainControl
 
@@ -18,20 +18,20 @@ class TollOperatorView:
         self.root = root
         self.root.title('toll Operator')
         self.root.protocol("WM_DELETE_WINDOW", self.close)
-        # this is the vehicle view object, we will use it to add and list vehicles
-        self.vehicle = None
+        # this is the tollOperator view object, we will use it to add and list tollOperators
+        self.tollOperator = None
         self.root.geometry('1280x720')
 
     def create_widgets(self):
         # we will have a menu bar with the following options
-        # 1. Vehicle (add, delete, find)
+        # 1. tollOperator (add, delete, find)
         # 2. Transaction (add, delete, find)
         menubar = Menu(self.root)
 
-        vehiclemenu = Menu(menubar, tearoff=0)
-        vehiclemenu.add_command(label="Add", command=self.add_vehicle)
-        vehiclemenu.add_command(label="List", command=self.list_vehicle)
-        menubar.add_cascade(label="Vehicle", menu=vehiclemenu)
+        tollOperatormenu = Menu(menubar, tearoff=0)
+        tollOperatormenu.add_command(label="Add", command=self.add_tollOperator)
+        tollOperatormenu.add_command(label="List", command=self.list_tollOperator)
+        menubar.add_cascade(label="tollOperator", menu=tollOperatormenu)
 
         transactionmenu = Menu(menubar, tearoff=0)
         transactionmenu.add_command(label="Analyse", command=self.donothing)
@@ -105,8 +105,6 @@ class TollOperatorView:
         for i, toll_op in enumerate(tollOperators):
             tree.insert(parent="", index=tk.END, iid=i, text="", values=(toll_op.operatorid, toll_op.name, toll_op.email, toll_op.password))
         tree.pack()
-
-        ##Daqui pra baixo, botoes da lista de operadores, tem q arrumar
         table_label.grid(row=1, column=1, rowspan=4, columnspan=4, padx=10, pady=10)
         self.search_label = Label(self.root)
         self.search_label.grid(row=1, column=7, padx=10, sticky='s', columnspan=2)
@@ -135,17 +133,17 @@ class TollOperatorView:
             self.tree.insert(parent="", index=tk.END, iid=i, text="", values=(toll_op.operatorid, toll_op.name, toll_op.email, toll_op.password)) 
             
     def find_tollOperator(self):
-        # find vehicle by model and add it to the tree
+        # find tollOperator by model and add it to the tree
         # first get the model from the entry box
         email = self.email_entry.get()
-        # find the vehicle, it might return None if the vehicle is not found
-        # or a list of vehicles if there are multiple vehicles with the same model
-        # or a list with one vehicle if there is only one vehicle with that model
+        # find the tollOperator, it might return None if the tollOperator is not found
+        # or a list of tollOperators if there are multiple tollOperators with the same model
+        # or a list with one tollOperator if there is only one tollOperator with that model
         operator = MainControl.find_tollOperator(email)
         # remove all the items from the tree
         for item in self.tree.get_children():
             self.tree.delete(item)
-        # insert the new vehicles
+        # insert the new tollOperators
         self.tree.insert(parent="", index=tk.END, text="", values=(operator.operatorid, operator.name, operator.email, operator.password))
     
     def remove_one(self):
@@ -168,24 +166,24 @@ class TollOperatorView:
             MainControl.remove_tollOperator(tollOperator)
             self.tree.delete(item)
     
-    def add_vehicle(self): 
-        if self.vehicle is None:
-            self.vehicle = VehicleView(self.root)
-        self.vehicle.add_vehicle()
+    def add_tollOperator(self): 
+        if self.tollOperator is None:
+            self.tollOperator = tollOperatorView(self.root)
+        self.tollOperator.add_tollOperator()
     
-    # the clear method will clear the root window, so that we can use it for the admin view
+    # the clear method will clear the root window
     def clear(self):
         for widget in self.root.winfo_children():
             widget.destroy()
         self.create_widgets()
     
 
-    def list_vehicle(self):
-        # create a vehicle view object if it does not exist
+    def list_tollOperator(self):
+        # create a tollOperator view object if it does not exist
         self.clear()
-        if self.vehicle is None:
-            self.vehicle = VehicleView(self.root)
-        self.vehicle.list_vehicle()
+        if self.tollOperator is None:
+            self.tollOperator = tollOperatorView(self.root)
+        self.tollOperator.list_tollOperator()
 
     def donothing(self):
         pass
