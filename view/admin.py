@@ -20,7 +20,7 @@ class AdminView:
         self.root = root
         self.root.title('Admin')
         self.root.protocol("WM_DELETE_WINDOW", self.close)
-        # this is the vehicle view object, we will use it to add and list vehicles and toll operators
+        # this is the vehicle view object, we will use it to add and list vehicles, toll operators and booths
         self.vehicle = None
         self.tollOperator = None
         self.tollBooth = None
@@ -216,7 +216,7 @@ class AdminView:
         self.tollOperator.add_tollOperator()
     
     def list_tollOperator(self):
-        # create a vehicle view object if it does not exist
+        # create a toll operator view object if it does not exist
         self.clear()
         if self.tollOperator is None:
             self.tollOperator = TollOperatorView(self.root, user=None)
@@ -240,7 +240,7 @@ class AdminView:
         self.tollBooth.add_tollBooth()
 
     def list_tollBooth(self):
-        # create a vehicle view object if it does not exist
+        # create a toll booth view object if it does not exist
         self.clear()
         if self.tollBooth is None:
             self.tollBooth = TollBoothView(self.root)
