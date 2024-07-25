@@ -111,9 +111,9 @@ class TollBoothView:
         # find toll both by highway and add it to the tree
         # first get the highway from the entry box
         highway = self.highway_entry.get()
-        # find the toll both, it might return None if the vehicle is not found
-        # or a list of toll boths if there are multiple vehicles with the same highway
-        # or a list with one toll both if there is only one vehicle with that highway
+        # find the toll both, it might return None if the tollBooth is not found
+        # or a list of toll boths if there are multiple tollBooths with the same highway
+        # or a list with one toll both if there is only one tollBooth with that highway
         tollBooths = MainControl.find_booth_by_highway(highway)
         # remove all the items from the tree
         for item in self.tree.get_children():
