@@ -32,7 +32,7 @@ class AdminView:
         # 2. Tolloperator (add, delete, find)
         # 3. Tollbooth (add, delete, find)
         # 4. Vehicle (add, delete, find)
-        # 5. Transaction (add, delete, find)
+        # 5. TollPayment (add, delete, find)
         menubar = Menu(self.root)
         adminmenu = Menu(menubar, tearoff=0)
         adminmenu.add_command(label="Add", command=self.add_admin)
@@ -56,9 +56,9 @@ class AdminView:
         vehiclemenu.add_command(label="List", command=self.list_vehicle)
         menubar.add_cascade(label="Vehicle", menu=vehiclemenu)
 
-        transactionmenu = Menu(menubar, tearoff=0)
-        transactionmenu.add_command(label="Analyse", command=self.donothing)
-        menubar.add_cascade(label="Transaction", menu=transactionmenu)
+        tollPaymentmenu = Menu(menubar, tearoff=0)
+        tollPaymentmenu.add_command(label="Analyse", command=self.donothing)
+        menubar.add_cascade(label="Toll Payment", menu=tollPaymentmenu)
 
         self.root.config(menu=menubar)
     def add_admin(self):
