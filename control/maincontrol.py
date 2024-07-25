@@ -4,10 +4,6 @@ class MainControl:
     data_manager = DataManager()
 
     @classmethod
-    def get_next_admin_id(cls):
-        return cls.data_manager.get_admin_id()
-
-    @classmethod
     def add_admin(cls, admin):
         cls.data_manager.insert_admin(admin)
 
@@ -56,13 +52,56 @@ class MainControl:
         return matching_vehicles
     
     @classmethod
+    def add_tollBooth(cls, tollBooth):
+        cls.data_manager.insert_tollBooth(tollBooth)
+
+    @classmethod
+    def remove_tollBooth(cls, tollBooth):
+        cls.data_manager.delete_tollBooth(tollBooth)
+
+    @classmethod
+    def find_tollBooth(cls, boothid):
+        return cls.data_manager.find_tollBooth(boothid)
+    
+    @classmethod
+    def get_all_tollBooths(cls):
+        return cls.data_manager.tollBooths
+
+    @classmethod
+    def find_booth_by_highway(cls, highway):
+        matching_tollBooths = []
+        for tollBooth in cls.data_manager.tollBooths:
+            if tollBooth.highway == highway:
+                matching_tollBooths.append(tollBooth)
+        return matching_tollBooths
+    
+    @classmethod
     def login(cls, email, password):
-        admin = cls.find_admin(email)
-        if admin is not None:
-            if admin.password == password:
-                return admin
+        user = cls.find_admin(email)
+        if user is None:
+            user = cls.find_tollOperator(email)
+            
+        if user is not None:
+            if user.password == password:
+                return user
         return False
 
+    @classmethod
+    def add_tollOperator(cls, toolOperator):
+        cls.data_manager.insert_tollOperator(toolOperator)
+
+    @classmethod
+    def remove_tollOperator(cls, toolOperator):
+        cls.data_manager.delete_tollOperator(toolOperator)
+
+    @classmethod
+    def find_tollOperator(cls, email):
+        return cls.data_manager.find_tollOperator(email)
+    
+    @classmethod
+    def get_all_tollOperators(cls):
+        return cls.data_manager.tollOperators
+    
     @classmethod
     def close_data_manager(cls):
         cls.data_manager.close()
