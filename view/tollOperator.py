@@ -9,6 +9,7 @@ from tkinter import Entry
 from tkinter import Button
 from model.tollOperator import TollOperator
 from control.maincontrol import MainControl
+from view.vehicle import VehicleView
 
 
 class TollOperatorView:
@@ -20,6 +21,7 @@ class TollOperatorView:
         # this is the tollOperator view object, we will use it to add and list tollOperators
         self.tollOperator = None
         self.root.geometry('1280x720')
+        self.vehicle = None
 
     def create_widgets(self):
         # we will have a menu bar with the following options
@@ -27,10 +29,10 @@ class TollOperatorView:
         # 2. Transaction (add, delete, find)
         menubar = Menu(self.root)
 
-        tollOperatormenu = Menu(menubar, tearoff=0)
-        tollOperatormenu.add_command(label="Add", command=self.add_tollOperator)
-        tollOperatormenu.add_command(label="List", command=self.list_tollOperator)
-        menubar.add_cascade(label="tollOperator", menu=tollOperatormenu)
+        vehiclemenu = Menu(menubar, tearoff=0)
+        vehiclemenu.add_command(label="Add", command=self.add_vehicle)
+        vehiclemenu.add_command(label="List", command=self.list_vehicle)
+        menubar.add_cascade(label="Vehicle", menu=vehiclemenu)
 
         transactionmenu = Menu(menubar, tearoff=0)
         transactionmenu.add_command(label="Analyse", command=self.donothing)
@@ -71,9 +73,9 @@ class TollOperatorView:
         button_frame = tk.Frame(popup)
         button_frame.pack(anchor='center', expand=True)
         tk.Button(button_frame, text="Submit", command=self.submit_tollOperator).pack(side='left')
-        tk.Button(button_frame, text="Cancel", command=popup.destroy).pack(side='left')
-
         self.popup = popup
+        tk.Button(button_frame, text="Cancel", command=self.popup.destroy).pack(side='left')
+
     
     def submit_tollOperator(self):
         operatorid = self.operatorid_entry.get()
@@ -165,27 +167,27 @@ class TollOperatorView:
             MainControl.remove_tollOperator(tollOperator)
             self.tree.delete(item)
     
-    def add_tollOperator(self): 
-        if self.tollOperator is None:
-            self.tollOperator = tollOperatorView(self.root)
-        self.tollOperator.add_tollOperator()
-    
     # the clear method will clear the root window
     def clear(self):
         for widget in self.root.winfo_children():
             widget.destroy()
         self.create_widgets()
-    
-
-    def list_tollOperator(self):
-        # create a tollOperator view object if it does not exist
-        self.clear()
-        if self.tollOperator is None:
-            self.tollOperator = tollOperatorView(self.root)
-        self.tollOperator.list_tollOperator()
 
     def donothing(self):
         pass
     def close(self):
         MainControl.close_data_manager()
         self.root.quit()
+
+    def list_vehicle(self):
+        # create a vehicle view object if it does not exist
+        self.clear()
+        if self.vehicle is None:
+            self.vehicle = VehicleView(self.root)
+        self.vehicle.list_vehicle()
+
+    def add_vehicle(self): 
+        self.clear()
+        if self.vehicle is None:
+            self.vehicle = VehicleView(self.root)
+        self.vehicle.add_vehicle()

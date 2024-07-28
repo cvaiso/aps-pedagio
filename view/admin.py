@@ -62,6 +62,7 @@ class AdminView:
 
         self.root.config(menu=menubar)
     def add_admin(self):
+        self.clear()
         # we need to check te admin permission, if it is 0
         # we will not allow the admin to add another admin
         if self.user.permission == 0:
@@ -99,11 +100,16 @@ class AdminView:
 
         button_frame = tk.Frame(popup)
         button_frame.pack(anchor='center', expand=True)
-        tk.Button(button_frame, text="Submit", command=self.submit_admin).pack(side='left')
-        tk.Button(button_frame, text="Cancel", command=popup.destroy).pack(side='left')
 
         # so that we don't have to change popup to self.popup in the code above I'm tieing it to self
         self.popup = popup
+
+        tk.Button(button_frame, text="Submit", command=self.submit_admin).pack(side='left')
+        tk.Button(button_frame, text="Cancel", command=self.popup.destroy).pack(side='left')
+
+        #defining what closing the popup will do
+        popup.protocol("WM_DELETE_WINDOW", self.submit_admin_cancel)
+
 
     def submit_admin(self):
         name = self.name_entry.get()
@@ -112,8 +118,6 @@ class AdminView:
         permission = int(self.permission_entry.get())
         new_admin = Admin(name, password, email, permission)
         MainControl.add_admin(new_admin)
-        #before closing the popup we will refresh list admin page
-        self.popup.destroy()
 
     def clear(self):
         for widget in self.root.winfo_children():
@@ -164,10 +168,7 @@ class AdminView:
         # creating an empty label to create space
         empty_label = Label(self.root, width=40, bg='light blue')
         empty_label.grid(row=1, column=6)
-        #PRA KARINOZA
-        # creating an empty label to create space after the search bar, to the right
-        empty_label2 = Label(self.root, width=40, bg='light blue')
-        empty_label2.grid(row=1, column=9)
+
         # creating buttons
         button_search = Button(self.root, text="Search", command=self.find_admin)
         button_search.grid(row=2, column=7, padx=10)
@@ -215,11 +216,13 @@ class AdminView:
             self.tree.insert(parent="", index=tk.END, iid=i, text="", values=(adm.name, adm.email, adm.permission))
 
     def add_tollOperator(self):
+        self.clear()
         if self.tollOperator is None:
             self.tollOperator = TollOperatorView(self.root, user = None)
         self.tollOperator.add_tollOperator()
     
     def list_tollOperator(self):
+        print("list_tollOperator() called from AdminView")
         # create a toll operator view object if it does not exist
         self.clear()
         if self.tollOperator is None:
@@ -227,6 +230,7 @@ class AdminView:
         self.tollOperator.list_tollOperator()
 
     def add_vehicle(self): 
+        self.clear()
         if self.vehicle is None:
             self.vehicle = VehicleView(self.root)
         self.vehicle.add_vehicle()
@@ -239,6 +243,7 @@ class AdminView:
         self.vehicle.list_vehicle()
 
     def add_tollBooth(self): 
+        self.clear()
         if self.tollBooth is None:
             self.tollBooth = TollBoothView(self.root)
         self.tollBooth.add_tollBooth()
