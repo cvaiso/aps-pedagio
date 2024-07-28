@@ -1,12 +1,12 @@
 #import psycopg2
 import tkinter as tk
 from view.login import LoginView
-from view.admin import AdminView
-from model.admin import Admin
-from control.maincontrol import MainControl
 
+class Programa:
 #creating tkinter window
-root = tk.Tk()
-login = LoginView(root)
-login.create_widgets()
-root.mainloop()
+    def __init__(self):
+        self.root = tk.Tk()
+        self.login = LoginView(self.root)
+        self.login.create_widgets()
+    def run(self):
+        self.root.mainloop()
