@@ -31,7 +31,7 @@ class TollBoothView:
         status_frame.pack(anchor='w', expand=True)
         tk.Label(status_frame, text="Status", width=12, bg='light blue').pack(side='left')
         self.status_entry = tk.Entry(status_frame, width=25)
-        self.status_entry.insert(0, "licensed")
+        self.status_entry.insert(0, "open")
         self.status_entry.pack(side='left')
 
         button_frame = tk.Frame(popup)
