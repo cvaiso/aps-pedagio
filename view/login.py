@@ -1,6 +1,8 @@
 import tkinter as tk
 from view.admin import AdminView
 from model.admin import Admin
+from model.tollOperator import TollOperator
+from view.tollOperator import TollOperatorView
 from control.maincontrol import MainControl
 
 class LoginView:
@@ -50,6 +52,11 @@ class LoginView:
             admin = AdminView(self.root, user)
             self.clear()
             admin.create_widgets()
+        # check if user is of type tollOperator
+        elif isinstance(user, TollOperator):
+            toll_operator_view = TollOperatorView(self.root, user)
+            self.clear()
+            toll_operator_view.create_widgets()
         else:
             print('Invalid username or password')
     def close(self):

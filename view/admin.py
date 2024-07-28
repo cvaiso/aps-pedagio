@@ -8,6 +8,8 @@ from tkinter import Label
 from tkinter import Entry
 from tkinter import Button
 from view.vehicle import VehicleView
+from view.tollOperator import TollOperatorView
+from view.tollBooth import TollBoothView
 from model.admin import Admin
 from control.maincontrol import MainControl
 
@@ -18,8 +20,10 @@ class AdminView:
         self.root = root
         self.root.title('Admin')
         self.root.protocol("WM_DELETE_WINDOW", self.close)
-        # this is the vehicle view object, we will use it to add and list vehicles
+        # this is the vehicle view object, we will use it to add and list vehicles, toll operators and booths
         self.vehicle = None
+        self.tollOperator = None
+        self.tollBooth = None
         self.root.geometry('1280x720')
 
     def create_widgets(self):
@@ -28,7 +32,7 @@ class AdminView:
         # 2. Tolloperator (add, delete, find)
         # 3. Tollbooth (add, delete, find)
         # 4. Vehicle (add, delete, find)
-        # 5. Transaction (add, delete, find)
+        # 5. TollPayment (add, delete, find)
         menubar = Menu(self.root)
         adminmenu = Menu(menubar, tearoff=0)
         adminmenu.add_command(label="Add", command=self.add_admin)
@@ -38,13 +42,13 @@ class AdminView:
         menubar.add_cascade(label="Admin", menu=adminmenu)
 
         toperatormenu = Menu(menubar, tearoff=0)
-        toperatormenu.add_command(label="Add", command=self.donothing)
-        toperatormenu.add_command(label="List", command=self.donothing)
+        toperatormenu.add_command(label="Add", command=self.add_tollOperator)
+        toperatormenu.add_command(label="List", command=self.list_tollOperator)
         menubar.add_cascade(label="Toll Operator", menu=toperatormenu)
 
         tollboothmenu = Menu(menubar, tearoff=0)
-        tollboothmenu.add_command(label="Add", command=self.donothing)
-        tollboothmenu.add_command(label="List", command=self.donothing)
+        tollboothmenu.add_command(label="Add", command=self.add_tollBooth)
+        tollboothmenu.add_command(label="List", command=self.list_tollBooth)
         menubar.add_cascade(label="Toll Booth", menu=tollboothmenu)
 
         vehiclemenu = Menu(menubar, tearoff=0)
@@ -52,9 +56,9 @@ class AdminView:
         vehiclemenu.add_command(label="List", command=self.list_vehicle)
         menubar.add_cascade(label="Vehicle", menu=vehiclemenu)
 
-        transactionmenu = Menu(menubar, tearoff=0)
-        transactionmenu.add_command(label="Analyse", command=self.donothing)
-        menubar.add_cascade(label="Transaction", menu=transactionmenu)
+        tollPaymentmenu = Menu(menubar, tearoff=0)
+        tollPaymentmenu.add_command(label="Analyse", command=self.donothing)
+        menubar.add_cascade(label="Toll Payment", menu=tollPaymentmenu)
 
         self.root.config(menu=menubar)
     def add_admin(self):
@@ -100,7 +104,6 @@ class AdminView:
 
         # so that we don't have to change popup to self.popup in the code above I'm tieing it to self
         self.popup = popup
-
 
     def submit_admin(self):
         name = self.name_entry.get()
@@ -172,7 +175,7 @@ class AdminView:
         button_remove_one.pack(side='left', padx=10)
         button_remove_many = Button(remove_label, text="Remove Many", command=self.remove_many)
         button_remove_many.pack(side='left', padx=10)
-        remove_label.grid(row=6, column=2, padx=10, columnspan=2)
+        remove_label.grid(row=6, column=2, padx=10)
 
         self.tree = tree
     def remove_one(self):
@@ -207,6 +210,18 @@ class AdminView:
         for i, adm in enumerate(admin):
             self.tree.insert(parent="", index=tk.END, iid=i, text="", values=(adm.name, adm.email, adm.permission))
 
+    def add_tollOperator(self):
+        if self.tollOperator is None:
+            self.tollOperator = TollOperatorView(self.root, user = None)
+        self.tollOperator.add_tollOperator()
+    
+    def list_tollOperator(self):
+        # create a toll operator view object if it does not exist
+        self.clear()
+        if self.tollOperator is None:
+            self.tollOperator = TollOperatorView(self.root, user=None)
+        self.tollOperator.list_tollOperator()
+
     def add_vehicle(self): 
         if self.vehicle is None:
             self.vehicle = VehicleView(self.root)
@@ -219,6 +234,18 @@ class AdminView:
             self.vehicle = VehicleView(self.root)
         self.vehicle.list_vehicle()
 
+    def add_tollBooth(self): 
+        if self.tollBooth is None:
+            self.tollBooth = TollBoothView(self.root)
+        self.tollBooth.add_tollBooth()
+
+    def list_tollBooth(self):
+        # create a toll booth view object if it does not exist
+        self.clear()
+        if self.tollBooth is None:
+            self.tollBooth = TollBoothView(self.root)
+        self.tollBooth.list_tollBooth()
+    
     def refresh_table(self):
         admins = MainControl.get_all_admins()
         for item in self.tree.get_children():
