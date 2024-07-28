@@ -7,7 +7,6 @@ from tkinter import Menu
 from tkinter import Label
 from tkinter import Entry
 from tkinter import Button
-from view.tollOperator import tollOperatorView
 from model.tollOperator import TollOperator
 from control.maincontrol import MainControl
 
