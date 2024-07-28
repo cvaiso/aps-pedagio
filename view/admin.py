@@ -164,6 +164,7 @@ class AdminView:
         # creating an empty label to create space
         empty_label = Label(self.root, width=40, bg='light blue')
         empty_label.grid(row=1, column=6)
+        #PRA KARINOZA
         # creating an empty label to create space after the search bar, to the right
         empty_label2 = Label(self.root, width=40, bg='light blue')
         empty_label2.grid(row=1, column=9)
