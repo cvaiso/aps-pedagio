@@ -107,9 +107,6 @@ class AdminView:
         tk.Button(button_frame, text="Submit", command=self.submit_admin).pack(side='left')
         tk.Button(button_frame, text="Cancel", command=self.popup.destroy).pack(side='left')
 
-        #defining what closing the popup will do
-        popup.protocol("WM_DELETE_WINDOW", self.submit_admin_cancel)
-
 
     def submit_admin(self):
         name = self.name_entry.get()
@@ -118,6 +115,7 @@ class AdminView:
         permission = int(self.permission_entry.get())
         new_admin = Admin(name, password, email, permission)
         MainControl.add_admin(new_admin)
+        self.popup.destroy()
 
     def clear(self):
         for widget in self.root.winfo_children():
