@@ -220,7 +220,6 @@ class AdminView:
         self.tollOperator.add_tollOperator()
     
     def list_tollOperator(self):
-        print("list_tollOperator() called from AdminView")
         # create a toll operator view object if it does not exist
         self.clear()
         if self.tollOperator is None:
